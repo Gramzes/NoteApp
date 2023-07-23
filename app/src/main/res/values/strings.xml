@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">NoteApp</string>
+    <string name="add_note_button_text">Add note</string>
+    <string name="sort_notes_button">Sort notes</string>
+    <string name="date_order_button">Date</string>
+    <string name="title_order_button">Title</string>
+    <string name="color_order_button">Color</string>
+    <string name="descending_order_button">Descending</string>
+    <string name="ascending_orderr_button">Ascending</string>
+    <string name="your_note_title">Your note</string>
+    <string name="delete_note_button">Delete note</string>
+</resources>
