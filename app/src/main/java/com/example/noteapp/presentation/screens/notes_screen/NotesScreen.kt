@@ -1,10 +1,9 @@
 package com.example.noteapp.presentation.screens.notes_screen
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
@@ -24,38 +23,59 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDefaults
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.noteapp.R
 import com.example.noteapp.domain.model.Note
 import com.example.noteapp.presentation.screens.notes_screen.components.NoteItem
 import com.example.noteapp.presentation.screens.notes_screen.components.OrderSection
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotesScreen(
-    viewModel: NotesScreenViewModel = viewModel(),
+    viewModel: NotesScreenViewModel,
     onNavigateToEditScreenClick: (Note?) -> Unit
 ) {
+    val coroutineScope = rememberCoroutineScope()
     val state = viewModel.state.value
     val snackBarState = remember {
         SnackbarHostState()
     }
+    Log.d("TEST", "NotesScreen")
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        snackbarHost = { SnackbarHost(hostState = snackBarState)},
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarState){
+                Snackbar(
+                    modifier = Modifier.padding(10.dp),
+                    action = {
+                        TextButton(onClick = { it.performAction() }) {
+                            Text(stringResource(R.string.yes_answer))
+                        }
+                    },
+                    containerColor = MaterialTheme.colorScheme.surface
+                ){
+                    Text(
+                        text = stringResource(R.string.restore_note_message),
+                        color = MaterialTheme.colorScheme.inverseOnSurface
+                    )
+                }
+            } },
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 onNavigateToEditScreenClick(null)
@@ -114,6 +134,8 @@ fun NotesScreen(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
+                val snackBarText = stringResource(R.string.restore_note_message)
+                val actionText = stringResource(R.string.yes_answer)
                 LazyColumn {
                     items(state.notes){
                         NoteItem(
@@ -121,10 +143,18 @@ fun NotesScreen(
                                 .fillMaxWidth()
                                 .padding(5.dp),
                             note = it,
-                            cutCornerSize = 8.dp,
+                            cutCornerSize = 30.dp,
                             cornerRadius = 10.dp,
                             onDeleteNoteClick = {
                                 viewModel.onEvent(NotesScreenEvent.DeleteNote(it))
+                                coroutineScope.launch {
+                                    when(snackBarState.showSnackbar("")){
+                                        SnackbarResult.Dismissed -> {}
+                                        SnackbarResult.ActionPerformed -> {
+                                            viewModel.onEvent(NotesScreenEvent.RestoreNote)
+                                        }
+                                    }
+                                }
                             },
                             onNoteClick = {
                                 onNavigateToEditScreenClick(it)

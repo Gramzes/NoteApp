@@ -10,8 +10,9 @@ import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import java.time.format.TextStyle
+import androidx.compose.ui.text.TextStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,23 +23,24 @@ fun TextFieldComponent(
     isHintVisible: Boolean = true,
     singleLine: Boolean,
     textStyle: TextStyle,
+    hintColor: Color,
     onValueChange: (String) -> Unit,
 ) {
     BasicTextField(
         modifier = modifier,
         value = text,
         onValueChange = onValueChange,
-        textStyle = MaterialTheme.typography.bodyMedium.copy(
-            color = MaterialTheme.colorScheme.onSurface
-        ),
+        textStyle = textStyle,
         singleLine = singleLine,
-        cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
+        cursorBrush = SolidColor(MaterialTheme.colorScheme.inverseOnSurface),
         decorationBox = { innerTextField ->
             if(isHintVisible) {
                 Text(
                     text = hint,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSecondary
+                    style = textStyle.copy(
+                        color = hintColor
+                    ),
+                    color = MaterialTheme.colorScheme.inverseOnSurface
                 )
             }
             innerTextField()

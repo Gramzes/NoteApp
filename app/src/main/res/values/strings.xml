@@ -9,4 +9,8 @@
     <string name="ascending_orderr_button">Ascending</string>
     <string name="your_note_title">Your note</string>
     <string name="delete_note_button">Delete note</string>
+    <string name="enter_some_content_hint">Enter some content...</string>
+    <string name="enter_title_hint">Enter title...</string>
+    <string name="restore_note_message">Do you want to restore a note?</string>
+    <string name="yes_answer">Yes</string>
 </resources>

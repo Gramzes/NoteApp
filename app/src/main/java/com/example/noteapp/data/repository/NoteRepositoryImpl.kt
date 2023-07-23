@@ -5,6 +5,7 @@ import com.example.noteapp.data.mapper.NoteMapper
 import com.example.noteapp.domain.model.Note
 import com.example.noteapp.domain.repository.NoteRepository
 import kotlinx.coroutines.flow.Flow
+import java.lang.Exception
 import javax.inject.Inject
 
 class NoteRepositoryImpl @Inject constructor(
@@ -29,6 +30,12 @@ class NoteRepositoryImpl @Inject constructor(
 
     override suspend fun insertNote(note: Note) {
         val entityNote = mapper.mapNoteDomainToData(note)
-        noteDao.insertNote(entityNote)
+        try {
+            noteDao.insertNote(entityNote)
+        } catch (ex: Exception){
+            ex
+            val a = 1
+        }
+
     }
 }

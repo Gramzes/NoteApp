@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -55,24 +56,26 @@ fun NoteItem(
                 drawRoundRect(
                     color = Color(note.color),
                     size = size,
-                    cornerRadius = CornerRadius(cornerRadius.toPx(), cornerRadius.toPx()),
+                    cornerRadius = CornerRadius(cornerRadius.toPx()),
                 )
                 drawRoundRect(
-                    color = Color(ColorUtils.blendARGB(note.color, 0x000000, 0.2f)),
+                    color = Color(ColorUtils.blendARGB(note.color, 0x000000, 0.3f)),
                     size = size,
                     topLeft = Offset(
                         size.width - cutCornerSize.toPx(),
                         cutCornerSize.toPx() - size.height
                     ),
-                    cornerRadius = CornerRadius(cornerRadius.toPx(), cornerRadius.toPx()),
+                    cornerRadius = CornerRadius(cornerRadius.toPx()),
                 )
             }
         }
         
-        Column {
+        Column(
+            modifier = Modifier.padding(15.dp)
+        ) {
             Text(
                 text = note.title,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.inverseOnSurface,
                 style = MaterialTheme.typography.titleLarge,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
@@ -82,7 +85,7 @@ fun NoteItem(
                 Text(
                     modifier = Modifier.weight(1f),
                     text = note.content,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.inverseOnSurface,
                     style = MaterialTheme.typography.bodyMedium,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 10
@@ -92,7 +95,7 @@ fun NoteItem(
                         modifier = Modifier.size(20.dp),
                         imageVector = Icons.Default.Delete,
                         contentDescription = stringResource(R.string.delete_note_button),
-                        tint = MaterialTheme.colorScheme.onSurface
+                        tint = MaterialTheme.colorScheme.inverseOnSurface
                     )
                 }
             }

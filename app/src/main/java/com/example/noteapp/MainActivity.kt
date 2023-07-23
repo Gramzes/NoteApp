@@ -10,7 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.example.noteapp.presentation.NoteNavHost
 import com.example.noteapp.presentation.screens.notes_screen.NotesScreen
+import com.example.noteapp.presentation.utils.Screen
 import com.example.noteapp.ui.theme.NoteAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +23,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NoteAppTheme {
-                NotesScreen()
+                val navController = rememberNavController()
+                NoteNavHost(
+                    navController = navController,
+                    onNavigateToEditNoteScreen = {
+                        navController.navigate(
+                            Screen.EditNote.getRouteWithArgs(it?.id)
+                        )
+                    },
+                    onNavigateBackFromEditScreen = {
+                        navController.navigateUp()
+                    }
+                )
             }
         }
     }
