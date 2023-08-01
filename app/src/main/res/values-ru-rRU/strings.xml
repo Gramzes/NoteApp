@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NoteMate</string>
+    <string name="add_note_button_text">Добавить заметку</string>
+    <string name="sort_notes_button">Сортировка заметок</string>
+    <string name="date_order_button">Дата</string>
+    <string name="title_order_button">Заголовок</string>
+    <string name="color_order_button">Цвет</string>
+    <string name="descending_order_button">По убыванию</string>
+    <string name="ascending_orderr_button">По возрастанию</string>
+    <string name="your_note_title">Ваши заметки</string>
+    <string name="delete_note_button">Удалить заметку</string>
+    <string name="enter_some_content_hint">Введите содержание...</string>
+    <string name="enter_title_hint">Введите заголовок...</string>
+    <string name="restore_note_message">Хотите восстановить заметку?</string>
+    <string name="yes_answer">Да</string>
+    <string name="fill_all_fields_toast">Заполните все поля</string>
+    <string name="your_reminders_title">Ваши напоминания</string>
+    <string name="delete_reminder_icon">Удалить напоминание</string>
+    <string name="notes_screen">Заметки</string>
+    <string name="reminders_screen">Напоминания</string>
+    <string name="done_button">Готово</string>
+    <string name="alarm_time">Время напоминания</string>
+    <string name="set_alarm_time">Время срабатывания</string>
+    <string name="enter_the_text">Введите текст</string>
+    <string name="save">Сохранить</string>
+    <string name="alarm">Время напоминания</string>
+    <string name="expired">Просрочено</string>
+    <string name="notification_title">Напоминание</string>
+    <string name="do_you_want_to_restore_a_note">Хотите восстановить заметку?</string>
+    <string name="permission_required">Необходимо разрешение</string>
+    <string name="autostart_dialog_text">Необходимо предоставить разрешение автостарта, чтобы приложение могло запланировать напоминания после перезагрузки кстройства.</string>
+    <string name="provide">Предоставить</string>
+    <string name="creation_time_order">Время создания</string>
+    <string name="reminder_time_order">Время срабатывания</string>
+    <string name="permission_denied_text">Вы не сможете получать напоминания без предоставленного разрешения.</string>
+</resources>
