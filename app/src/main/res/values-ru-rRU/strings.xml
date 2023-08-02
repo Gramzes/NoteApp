@@ -29,7 +29,7 @@
     <string name="notification_title">Напоминание</string>
     <string name="do_you_want_to_restore_a_note">Хотите восстановить заметку?</string>
     <string name="permission_required">Необходимо разрешение</string>
-    <string name="autostart_dialog_text">Необходимо предоставить разрешение автостарта, чтобы приложение могло запланировать напоминания после перезагрузки кстройства.</string>
+    <string name="autostart_dialog_text">На некоторых устройствах предоставить разрешение автостарта, чтобы приложение могло запланировать напоминания после перезагрузки кстройства.</string>
     <string name="provide">Предоставить</string>
     <string name="creation_time_order">Время создания</string>
     <string name="reminder_time_order">Время срабатывания</string>

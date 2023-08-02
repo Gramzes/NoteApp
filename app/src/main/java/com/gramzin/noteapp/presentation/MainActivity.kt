@@ -1,6 +1,5 @@
 package com.gramzin.noteapp.presentation
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
 import com.gramzin.noteapp.navigation.NoteNavHost
-import com.gramzin.noteapp.presentation.components.TabsContainer
 import com.gramzin.noteapp.navigation.Screen
+import com.gramzin.noteapp.presentation.components.TabsContainer
 import com.gramzin.noteapp.ui.theme.NoteAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +21,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            NoteAppTheme {
+            NoteAppTheme(dynamicColor = false) {
                 val navController = rememberNavController()
                 Scaffold(
                     topBar = {
@@ -56,9 +55,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
     }
 }

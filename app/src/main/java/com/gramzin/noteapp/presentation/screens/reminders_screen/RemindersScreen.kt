@@ -1,8 +1,13 @@
 package com.gramzin.noteapp.presentation.screens.reminders_screen
 
+import android.app.AlarmManager
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.provider.Settings
 import android.widget.Toast
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -265,28 +270,37 @@ fun AddReminderActionButton(
     viewModel: RemindersScreenViewModel,
     onDeniedPermission: () -> Unit
 ){
+    val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
-        onResult = {
-            if(it){
-                viewModel.onEvent(RemindersScreenEvent.OpenEditReminderDialog)
-            } else {
-                onDeniedPermission()
+        onResult = { hasNotificationPermission ->
+            val hasAlarmPermission = checkAlarmPermission(context)
+            when{
+                hasAlarmPermission && hasNotificationPermission ->{
+                    viewModel.onEvent(RemindersScreenEvent.OpenEditReminderDialog)
+                }
+                !hasNotificationPermission ->{
+                    onDeniedPermission()
+                }
+                else ->{
+                    launchAlarmPermission(context)
+                }
             }
         }
     )
-    val context = LocalContext.current
     FloatingActionButton(onClick = {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val result = ContextCompat
-                .checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS)
-            if (result == PackageManager.PERMISSION_GRANTED){
+        val hasAlarmPermission = checkAlarmPermission(context)
+        val hasNotificationPermission = checkNotificationPermission(context)
+        when{
+            hasAlarmPermission && hasNotificationPermission ->{
                 viewModel.onEvent(RemindersScreenEvent.OpenEditReminderDialog)
-            } else{
-                launcher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
             }
-        } else {
-            viewModel.onEvent(RemindersScreenEvent.OpenEditReminderDialog)
+            !hasNotificationPermission ->{
+                launchNotificationPermission(launcher)
+            }
+            else ->{
+                launchAlarmPermission(context)
+            }
         }
     }) {
         Icon(
@@ -294,5 +308,37 @@ fun AddReminderActionButton(
             contentDescription = stringResource(R.string.add_note_button_text),
             tint = MaterialTheme.colorScheme.primary
         )
+    }
+}
+
+fun checkNotificationPermission(context: Context): Boolean{
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val result = ContextCompat
+            .checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS)
+        return result == PackageManager.PERMISSION_GRANTED
+    }
+    return true
+}
+
+fun launchNotificationPermission(launcher: ManagedActivityResultLauncher<String, Boolean>){
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        launcher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+    }
+}
+
+fun checkAlarmPermission(context: Context): Boolean{
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val alarmManager = ContextCompat.getSystemService(context, AlarmManager::class.java)
+        return alarmManager?.canScheduleExactAlarms() ?: false
+    }
+    return true
+}
+
+fun launchAlarmPermission(context: Context){
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        Intent().also { intent ->
+            intent.action = Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+            context.startActivity(intent)
+        }
     }
 }

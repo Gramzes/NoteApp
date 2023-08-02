@@ -28,7 +28,7 @@
     <string name="notification_title">Reminder</string>
     <string name="do_you_want_to_restore_a_note">Do you want to restore a note?</string>
     <string name="permission_required">Permission required</string>
-    <string name="autostart_dialog_text">You must grant autostart permission in the device settings so that the app can schedule reminders after restarting the device.</string>
+    <string name="autostart_dialog_text">On some devices you must grant autostart permission in the device settings so that the app can schedule reminders after restarting the device.</string>
     <string name="provide">Provide</string>
     <string name="creation_time_order">Creation time</string>
     <string name="reminder_time_order">Reminder time</string>

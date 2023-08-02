@@ -29,7 +29,8 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
+            </intent-filter>
+            <intent-filter>
                 <data android:scheme="https" android:host="com.gramzin.noteapp" />
             </intent-filter>
         </activity>
